@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,6 +24,14 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 		this.data = data;
 	}
 
+	public  interface OnRvItemClickListener{
+		void onItemClick(View view);
+	}
+	public void setItemClickListener(OnRvItemClickListener onItemClickListener){
+		this.onItemClickListener = onItemClickListener;
+	}
+	private   OnRvItemClickListener onItemClickListener;
+
 	@NonNull
 	@Override
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -33,9 +40,19 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 	}
 
 	@Override
-	public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+	public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+
 		holder.ivIcon.setImageResource(data.get(position).getIvId());
 		holder.tvName.setText(data.get(position).getName());
+		if (onItemClickListener !=null){
+			holder.itemView.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					onItemClickListener.onItemClick(holder.itemView);
+				}
+			});
+
+		}
 	}
 
 
@@ -50,10 +67,12 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 	class ViewHolder extends RecyclerView.ViewHolder{
 		TextView tvName;
 		ImageView ivIcon;
+
 		public ViewHolder(View itemView) {
 			super(itemView);
 			tvName = itemView.findViewById(R.id.item_main_tv);
 			ivIcon  = itemView.findViewById(R.id.item_main_iv);
+
 		}
 	}
 }
