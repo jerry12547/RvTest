@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
 	private void startIntent(int tag){
 		Intent intent = new Intent(MainActivity.this,OneActivity.class);
-		intent.putExtra("TAG",tag);
+		intent.putExtra(OneActivity.RV_MODE,tag);
 		startActivity(intent);
 	}
 }

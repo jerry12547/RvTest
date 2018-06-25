@@ -15,20 +15,20 @@ import rvtest.jerry.com.recyclerviewtest.R;
  * @author Jerry on 2018/6/22.
  * @function
  */
-public class OneAdapter extends RecyclerView.Adapter<OneAdapter.ViewHolder> {
+public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.ViewHolder> {
 
 	private List<String>  hotelName;
 
 
 
-	public OneAdapter(List<String> hotelName){
+	public PlaceAdapter(List<String> hotelName){
 		this.hotelName = hotelName;
 	}
 	@NonNull
 	@Override
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_one_tv,parent,false);
+		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_place_rv,parent,false);
 		ViewHolder vh = new ViewHolder(view);
 
 		return vh;
@@ -48,7 +48,7 @@ public class OneAdapter extends RecyclerView.Adapter<OneAdapter.ViewHolder> {
 		TextView tvName;
 		public ViewHolder(View itemView) {
 			super(itemView);
-			tvName = itemView.findViewById(R.id.item_one_tv);
+			tvName = itemView.findViewById(R.id.item_place_tv);
 		}
 	}
 }
