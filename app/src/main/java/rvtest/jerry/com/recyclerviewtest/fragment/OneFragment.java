@@ -22,8 +22,11 @@ import java.util.List;
 import rvtest.jerry.com.recyclerviewtest.BaseFragment;
 import rvtest.jerry.com.recyclerviewtest.R;
 import rvtest.jerry.com.recyclerviewtest.adapter.BasicAdapter;
+import rvtest.jerry.com.recyclerviewtest.adapter.CityAdapter;
 import rvtest.jerry.com.recyclerviewtest.adapter.PlaceAdapter;
+import rvtest.jerry.com.recyclerviewtest.beans.CityBean;
 import rvtest.jerry.com.recyclerviewtest.divider.BasicDividerItem;
+import rvtest.jerry.com.recyclerviewtest.divider.SectionDecoration;
 
 /**
  * @author Jerry on 2018/6/22.
@@ -34,6 +37,10 @@ public class OneFragment extends BaseFragment {
 //	private List<Object> data ;
 	private String[] hotelPeopleData  = {"10-50","51-100","101-150","151-300","301-500","501-100","1000以上"};
 	private String[] hotelPlaceType = {"五星/顶级","五星/豪华","四星/高档","三星/舒适","经济型","度假村","会议中心"};
+
+	private List<CityBean> cityBeanList;
+
+
 
 	private   int default_mode = 0;
 	public static final int BASIC_RV = 0;
@@ -144,6 +151,25 @@ public class OneFragment extends BaseFragment {
 			case MIX_RV:
 				break;
 			case TIME_WIDGET_RV:
+				rvMain.setAdapter(new CityAdapter(addCityData()));
+				rvMain.setLayoutManager(new LinearLayoutManager(getActivity()));
+				rvMain.addItemDecoration(new SectionDecoration(getActivity(), new SectionDecoration.DecorationCallback() {
+					@Override
+					public long getGroupId(int position) {
+						return Character.toUpperCase(cityBeanList.get(position).getMemberName().charAt(0));
+//						return cityBeanList.get(position).getMemberName();
+					}
+
+					@Override
+					public String getGroupFirstLetter(int position) {
+//						return cityBeanList.get(position).getMemberName().substring(0,1).toUpperCase();
+						//网上做法是对英文通用，如果不想通过工具类提取中文首字母,还是手动添加字幕方便点
+						//只要数据集是正确的，基本不会有问题
+						return cityBeanList.get(position).getGroupName().toUpperCase();
+					}
+				}));
+				setTitle("城市选择器");
+
 				break;
 			case CHOOSE_PLACE_RV:
 				rvMain.setAdapter(new PlaceAdapter(addPlaceData()));
@@ -169,6 +195,32 @@ public class OneFragment extends BaseFragment {
 	 */
 	private List<String> addPlaceData(){
 		return new ArrayList<>(Arrays.asList(hotelPeopleData));
+	}
+
+
+	/**
+	 * 添加地点数据
+	 * @return
+	 */
+	private List<CityBean> addCityData(){
+		//先填充假数据 后期更改
+		cityBeanList= new ArrayList<>();
+		cityBeanList.add(new CityBean("A","安徽",true));
+		cityBeanList.add(new CityBean("A","安庆",false));
+		cityBeanList.add(new CityBean("A","安吉拉大宝贝",false));
+		cityBeanList.add(new CityBean("B","北京",true));
+		cityBeanList.add(new CityBean("B","北京",false));
+		cityBeanList.add(new CityBean("B","北京",false));
+		cityBeanList.add(new CityBean("B","北京",false));
+		cityBeanList.add(new CityBean("C","城市",true));
+		cityBeanList.add(new CityBean("D","hello",true));
+		cityBeanList.add(new CityBean("D","hello",false));
+		cityBeanList.add(new CityBean("D","hello",false));
+		cityBeanList.add(new CityBean("D","hello",false));
+		cityBeanList.add(new CityBean("D","zzzhello",false));
+		cityBeanList.add(new CityBean("D","hello",false));
+		cityBeanList.add(new CityBean("E","world",true));
+		return cityBeanList;
 	}
 
 

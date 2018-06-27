@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import rvtest.jerry.com.recyclerviewtest.R;
+import rvtest.jerry.com.recyclerviewtest.beans.CityBean;
 
 /**
  * @author Jerry on 2018/6/26.
@@ -17,9 +18,9 @@ import rvtest.jerry.com.recyclerviewtest.R;
  */
 public class CityAdapter  extends  RecyclerView.Adapter<CityAdapter.ViewHolder>{
 
-	private List<String> data;
+	private List<CityBean> data;
 
-	public CityAdapter(List<String> data){
+	public CityAdapter(List<CityBean> data){
 		this.data = data;
 	}
 	@NonNull
@@ -31,7 +32,7 @@ public class CityAdapter  extends  RecyclerView.Adapter<CityAdapter.ViewHolder>{
 
 	@Override
 	public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-		holder.tvMain.setText(data.get(position));
+		holder.tvMain.setText(data.get(position).getMemberName());
 	}
 
 	@Override
