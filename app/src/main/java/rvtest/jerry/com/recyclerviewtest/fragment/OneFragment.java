@@ -2,6 +2,8 @@ package rvtest.jerry.com.recyclerviewtest.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +23,7 @@ import rvtest.jerry.com.recyclerviewtest.BaseFragment;
 import rvtest.jerry.com.recyclerviewtest.R;
 import rvtest.jerry.com.recyclerviewtest.adapter.BasicAdapter;
 import rvtest.jerry.com.recyclerviewtest.adapter.PlaceAdapter;
+import rvtest.jerry.com.recyclerviewtest.divider.BasicDividerItem;
 
 /**
  * @author Jerry on 2018/6/22.
@@ -131,6 +134,9 @@ public class OneFragment extends BaseFragment {
 				basicAdapter = new BasicAdapter(getActivity(),addBasicData());
 				rvMain.setAdapter(basicAdapter);
 				rvMain.setLayoutManager(new LinearLayoutManager(getActivity()));
+				rvMain.setItemAnimator(new DefaultItemAnimator());//默认动画
+//				rvMain.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));//默认形式分割线
+				rvMain.addItemDecoration(new BasicDividerItem(getActivity()));//自定义分割线
 				setTitle("基础的RV");
 				break;
 			case WATERFALL_RV:
