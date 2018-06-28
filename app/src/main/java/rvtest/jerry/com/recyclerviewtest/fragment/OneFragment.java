@@ -3,7 +3,6 @@ package rvtest.jerry.com.recyclerviewtest.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +26,7 @@ import rvtest.jerry.com.recyclerviewtest.adapter.PlaceAdapter;
 import rvtest.jerry.com.recyclerviewtest.beans.CityBean;
 import rvtest.jerry.com.recyclerviewtest.divider.BasicDividerItem;
 import rvtest.jerry.com.recyclerviewtest.divider.SectionDecoration;
+import rvtest.jerry.com.recyclerviewtest.interfaces.OnRvItemClickListener;
 
 /**
  * @author Jerry on 2018/6/22.
@@ -42,18 +42,19 @@ public class OneFragment extends BaseFragment {
 
 
 
-	private   int default_mode = 0;
+	private  int default_mode = 0;
 	public static final int BASIC_RV = 0;
 	public static final int WATERFALL_RV = 1;
 	public static final int MIX_RV= 2;
-	public static final int TIME_WIDGET_RV = 3;
+	public static final int CITY_WIDGET_RV = 3;
 	public static final int CHOOSE_PLACE_RV  = 4;
+	public static final int GRID_RV = 5;
 
 	private static final String COME_IN_MODE = "COME_IN_MODE";
 
 
 	private BasicAdapter basicAdapter = null;
-
+	private PlaceAdapter placeAdapter = null;
 	public static OneFragment getInstance(int tag){
 		Bundle bundle = new Bundle();
 		bundle.putInt(COME_IN_MODE,tag);
@@ -150,7 +151,7 @@ public class OneFragment extends BaseFragment {
 				break;
 			case MIX_RV:
 				break;
-			case TIME_WIDGET_RV:
+			case CITY_WIDGET_RV:
 				rvMain.setAdapter(new CityAdapter(addCityData()));
 				rvMain.setLayoutManager(new LinearLayoutManager(getActivity()));
 				rvMain.addItemDecoration(new SectionDecoration(getActivity(), new SectionDecoration.DecorationCallback() {
@@ -172,10 +173,26 @@ public class OneFragment extends BaseFragment {
 
 				break;
 			case CHOOSE_PLACE_RV:
-				rvMain.setAdapter(new PlaceAdapter(addPlaceData()));
+				placeAdapter = new PlaceAdapter(addPlaceData());
+				placeAdapter.setOnRvItemClickListener(new OnRvItemClickListener() {
+					@Override
+					public void onItemClick(View view) {
+						int position = rvMain.getChildAdapterPosition(view);
+						//需要切换不同的item，因为当前只能选择一个
+					}
+				});
+				rvMain.setAdapter(placeAdapter);
+
 //				rvMain.setLayoutManager(new LinearLayoutManager(getActivity()));
 				rvMain.setLayoutManager(new GridLayoutManager(getActivity(),3));
 				setTitle("选择地点RV");
+				break;
+			case GRID_RV:
+				basicAdapter = new BasicAdapter(getActivity(),addDoubleBasicData());
+				rvMain.setAdapter(basicAdapter);
+				rvMain.setLayoutManager(new GridLayoutManager(getActivity(),3));
+				rvMain.setItemAnimator(new DefaultItemAnimator());//默认动画
+				setTitle("Grid RV");
 				break;
 				default:
 					break;
@@ -188,6 +205,13 @@ public class OneFragment extends BaseFragment {
 			basicData.add(i+"条数据");
 		}
 		return basicData;
+	}
+	private List<String> addDoubleBasicData(){
+		List<String> data = new ArrayList<>();
+		for (int i = 0; i <80 ; i++) {
+			data.add(i+"条数据");
+		}
+		return data;
 	}
 	/**
 	 * 添加地点选择器的数据

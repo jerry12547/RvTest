@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import rvtest.jerry.com.recyclerviewtest.R;
+import rvtest.jerry.com.recyclerviewtest.interfaces.OnRvItemClickListener;
 
 /**
  * @author Jerry on 2018/6/22.
@@ -37,6 +38,21 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.ViewHolder> 
 	@Override
 	public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 		holder.tvName.setText(hotelName.get(position));
+		if(listener !=null){
+			holder.itemView.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (v.isSelected()){
+						v.setSelected(false);
+					}else {
+						v.setSelected(true);
+					}
+					listener.onItemClick(v);
+
+
+				}
+			});
+		}
 	}
 
 	@Override
@@ -50,5 +66,11 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.ViewHolder> 
 			super(itemView);
 			tvName = itemView.findViewById(R.id.item_place_tv);
 		}
+	}
+
+	private OnRvItemClickListener listener;
+
+	public void setOnRvItemClickListener(OnRvItemClickListener listener){
+		this.listener = listener;
 	}
 }

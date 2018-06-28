@@ -12,6 +12,7 @@ import java.util.List;
 
 import rvtest.jerry.com.recyclerviewtest.R;
 import rvtest.jerry.com.recyclerviewtest.beans.MainBean;
+import rvtest.jerry.com.recyclerviewtest.interfaces.OnRvItemClickListener;
 
 /**
  * @author Jerry on 2018/6/22.
@@ -24,9 +25,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 		this.data = data;
 	}
 
-	public  interface OnRvItemClickListener{
-		void onItemClick(View view);
-	}
+//	public  interface OnRvItemClickListener{
+//		void onItemClick(View view);
+//	}
 	public void setItemClickListener(OnRvItemClickListener onItemClickListener){
 		this.onItemClickListener = onItemClickListener;
 	}

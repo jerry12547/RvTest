@@ -40,8 +40,8 @@ public class BasicAdapter extends RecyclerView.Adapter<BasicAdapter.ViewHolder> 
             data.remove(0);
             notifyItemRemoved(0);
         }else{
-            data.remove(data.size());
-            notifyItemRemoved(data.size());
+            data.remove(data.size()-1);
+            notifyItemRemoved(data.size()-1);
         }
     }
 

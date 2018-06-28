@@ -13,6 +13,7 @@ import java.util.List;
 import rvtest.jerry.com.recyclerviewtest.adapter.MainAdapter;
 import rvtest.jerry.com.recyclerviewtest.beans.MainBean;
 import rvtest.jerry.com.recyclerviewtest.fragment.OneActivity;
+import rvtest.jerry.com.recyclerviewtest.interfaces.OnRvItemClickListener;
 import rvtest.jerry.com.recyclerviewtest.util.ToastUtil;
 
 /**
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
 		dealData();
 		adapter = new MainAdapter(mainData);
-		adapter.setItemClickListener(new MainAdapter.OnRvItemClickListener() {
+		adapter.setItemClickListener(new OnRvItemClickListener() {
 			@Override
 			public void onItemClick(View view) {
 				int position = mRecyclerView.getChildAdapterPosition(view);
@@ -52,8 +53,9 @@ public class MainActivity extends AppCompatActivity {
 		mainData.add(new MainBean(R.mipmap.ic_launcher,"基础recyclerView"));
 		mainData.add(new MainBean(R.mipmap.ic_launcher,"瀑布流"));
 		mainData.add(new MainBean(R.mipmap.ic_launcher,"多布局复杂recyclerView"));
-		mainData.add(new MainBean(R.mipmap.ic_launcher,"时间选择空间recyclerView"));
+		mainData.add(new MainBean(R.mipmap.ic_launcher,"城市选择recyclerView"));
 		mainData.add(new MainBean(R.mipmap.ic_launcher,"地点选择recyclerView"));
+		mainData.add(new MainBean(R.mipmap.ic_launcher,"grid布局的recyclerView"));
 	}
 
 	private void startIntent(int tag){
