@@ -25,6 +25,7 @@ import rvtest.jerry.com.recyclerviewtest.adapter.CityAdapter;
 import rvtest.jerry.com.recyclerviewtest.adapter.PlaceAdapter;
 import rvtest.jerry.com.recyclerviewtest.beans.CityBean;
 import rvtest.jerry.com.recyclerviewtest.divider.BasicDividerItem;
+import rvtest.jerry.com.recyclerviewtest.divider.GridDivider;
 import rvtest.jerry.com.recyclerviewtest.divider.SectionDecoration;
 import rvtest.jerry.com.recyclerviewtest.interfaces.OnRvItemClickListener;
 
@@ -190,8 +191,10 @@ public class OneFragment extends BaseFragment {
 			case GRID_RV:
 				basicAdapter = new BasicAdapter(getActivity(),addDoubleBasicData());
 				rvMain.setAdapter(basicAdapter);
+				rvMain.addItemDecoration(new GridDivider(getActivity()));
 				rvMain.setLayoutManager(new GridLayoutManager(getActivity(),3));
 				rvMain.setItemAnimator(new DefaultItemAnimator());//默认动画
+
 				setTitle("Grid RV");
 				break;
 				default:
