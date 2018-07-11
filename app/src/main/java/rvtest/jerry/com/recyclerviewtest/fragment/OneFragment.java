@@ -37,7 +37,8 @@ public class OneFragment extends BaseFragment {
 	private RecyclerView rvMain;
 //	private List<Object> data ;
 	private String[] hotelPeopleData  = {"10-50","51-100","101-150","151-300","301-500","501-100","1000以上"};
-	private String[] hotelPlaceType = {"五星/顶级","五星/豪华","四星/高档","三星/舒适","经济型","度假村","会议中心"};
+	private String[] hotelPlaceType = {"五星/顶级","五星/豪华","四星/高档","三星/舒适","经济型","度假村","会议中心","野人岛","总统套房"};
+	private List<String> hotelData;
 
 	private List<CityBean> cityBeanList;
 
@@ -73,8 +74,22 @@ public class OneFragment extends BaseFragment {
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		super.onCreateOptionsMenu(menu, inflater);
-		if (default_mode != CHOOSE_PLACE_RV){
-			inflater.inflate(R.menu.fragment_one_menu,menu);
+
+		switch (default_mode){
+			case CHOOSE_PLACE_RV:
+				inflater.inflate(R.menu.fragment_place_menu,menu);
+				break;
+			case BASIC_RV:
+				inflater.inflate(R.menu.fragment_common_menu,menu);
+				break;
+			case WATERFALL_RV:
+				inflater.inflate(R.menu.fragment_common_menu,menu);
+				break;
+			case GRID_RV:
+				inflater.inflate(R.menu.fragment_common_menu,menu);
+				break;
+		}
+
 
 			//换成下面的方法了
 //			MenuItem addItem = menu.findItem(R.id.menu_add_item);
@@ -95,9 +110,7 @@ public class OneFragment extends BaseFragment {
 //				}
 //			});
 
-		}else {
 
-		}
 
 
 	}
@@ -117,6 +130,14 @@ public class OneFragment extends BaseFragment {
 				break;
 			case R.id.menu_del_bottom_item:
 				removeData(false);
+				break;
+
+
+			case R.id.menu_place_choose_one:
+				changeSinglePlaceData(true);
+				break;
+			case R.id.menu_place_choose_more:
+				changeSinglePlaceData(false);
 				break;
 			default:
 				break;
@@ -174,12 +195,16 @@ public class OneFragment extends BaseFragment {
 
 				break;
 			case CHOOSE_PLACE_RV:
-				placeAdapter = new PlaceAdapter(addPlaceData());
+				hotelData = new ArrayList<>();
+				addDefaultPlaceData();
+				placeAdapter = new PlaceAdapter(hotelData);
+				placeAdapter.setSingleMode(false);
 				placeAdapter.setOnRvItemClickListener(new OnRvItemClickListener() {
 					@Override
 					public void onItemClick(View view) {
 						int position = rvMain.getChildAdapterPosition(view);
 						//需要切换不同的item，因为当前只能选择一个
+						Log.i("jerryTest", "onItemClick: "+position);
 					}
 				});
 				rvMain.setAdapter(placeAdapter);
@@ -215,13 +240,6 @@ public class OneFragment extends BaseFragment {
 			data.add(i+"条数据");
 		}
 		return data;
-	}
-	/**
-	 * 添加地点选择器的数据
-	 * @return
-	 */
-	private List<String> addPlaceData(){
-		return new ArrayList<>(Arrays.asList(hotelPeopleData));
 	}
 
 
@@ -284,4 +302,40 @@ public class OneFragment extends BaseFragment {
 		basicAdapter.removeData(head);
 
 	}
+
+	/**
+	 * 转换地点的形式
+	 * @param isSingle
+	 */
+	private void changeSinglePlaceData(boolean isSingle){
+		if (hotelData != null ) {
+			hotelData.clear();
+			placeAdapter.notifyDataSetChanged();
+		}
+		if (isSingle) {
+			addSinglePlaceData();
+		}else {
+			addDefaultPlaceData();
+		}
+		placeAdapter.setSingleMode(isSingle);
+		//刷新数据
+		placeAdapter.notifyDataSetChanged();
+	}
+
+	/**
+	 * 添加地点选择器的数据
+	 * @return
+	 */
+	private void addSinglePlaceData(){
+//		hotelData = new ArrayList<>(Arrays.asList(hotelPeopleData));
+		hotelData.clear();
+		hotelData.addAll(Arrays.asList(hotelPeopleData));
+	}
+
+	private void addDefaultPlaceData(){
+		hotelData.clear();
+//		hotelData = new ArrayList<>(Arrays.asList(hotelPlaceType));
+		hotelData.addAll(Arrays.asList(hotelPlaceType));
+	}
+
 }
